@@ -7,12 +7,19 @@ import {
     LoginButton,
     LogoutButton,
 } from '@kobbleio/next/client'
+import {supabaseClient} from "@/app/supabase/client";
+import ChatList from "@/app/_components/ChatList";
+import {handleNewChat} from "@/app/actions/handleNewChat";
 
 const Sidebar: React.FC = async () => {
     const { session } = await getAuth();
     const userId = session?.user.id;
 
-    const chats = [];
+    const {data: chats} = await supabaseClient
+        .from('chats')
+        .select('id, name')
+        .order('created_at', {ascending: false})
+        .filter('user_id', 'eq', userId);
 
     return (
         <div className="w-82 h-full bg-[#1e1e1e] text-[#eaeaea] flex flex-col">
@@ -22,7 +29,7 @@ const Sidebar: React.FC = async () => {
                         Logout
                     </button>
                 </LogoutButton>
-                <form action="handleNewChat" className="flex">
+                <form action={handleNewChat} className="flex">
                     <input type="text"
                            name="chatName"
                            placeholder="Add new chat name"
@@ -31,7 +38,7 @@ const Sidebar: React.FC = async () => {
                 </form>
             </div>
             <h1 className="text-xl font-bold p-4">Chat History</h1>
-
+            <ChatList chats={chats || []} />
         </div>
     );
 }
