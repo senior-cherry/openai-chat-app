@@ -1,6 +1,7 @@
 import React from "react";
 import { getAuth } from "@kobbleio/next/server";
 import {supabaseClient} from "@/app/supabase/client";
+import {handleNewMessage} from "@/app/actions/handleNewMessage";
 
 interface ChatProps {
     chatId: string;
@@ -31,7 +32,7 @@ const Chat: React.FC<ChatProps> = async ({chatId}) => {
                     ))
                 }
             </div>
-            <form action={handleSendMessage} className="flex items-center mt-4">
+            <form action={handleNewMessage} className="flex items-center mt-4">
                 <input type="hidden" name="chatId" value={chatId}/>
                 <input type="text" name="newMessage" placeholder="Type your message..."
                        className="flex-1 p-2 text-black rounded-l bg-[#f5f5f5] placeholder-gray-500 focus:outline-none" />
