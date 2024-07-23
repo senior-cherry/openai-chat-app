@@ -1,11 +1,8 @@
 import React from "react";
 import { getAuth } from "@kobbleio/next/server";
 import {
-    useAuth,
-    SignedIn,
-    SignedOut,
-    LoginButton,
     LogoutButton,
+    PricingLink
 } from '@kobbleio/next/client'
 import {supabaseClient} from "@/app/supabase/client";
 import ChatList from "@/app/_components/ChatList";
@@ -29,6 +26,9 @@ const Sidebar: React.FC = async () => {
                         Logout
                     </button>
                 </LogoutButton>
+                <PricingLink>
+                    <span>Upgrade GPT Plan</span>
+                </PricingLink>
                 <form action={handleNewChat} className="flex">
                     <input type="text"
                            name="chatName"
